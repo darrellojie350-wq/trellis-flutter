@@ -130,11 +130,12 @@ class _PillBar extends StatelessWidget {
 
 /* ---------------- shared bits ---------------- */
 class Tnum extends StatelessWidget {
-  const Tnum(this.text, {super.key, this.style});
+  const Tnum(this.text, {super.key, this.style, this.textAlign});
   final String text;
   final TextStyle? style;
+  final TextAlign? textAlign;
   @override
-  Widget build(BuildContext context) => Text(text, style: (style ?? const TextStyle()).copyWith(fontFamily: 'monospace', fontFeatures: const [FontFeature.tabularFigures()]));
+  Widget build(BuildContext context) => Text(text, textAlign: textAlign, style: (style ?? const TextStyle()).copyWith(fontFamily: 'monospace', fontFeatures: const [FontFeature.tabularFigures()]));
 }
 
 class Eyebrow extends StatelessWidget {
@@ -397,8 +398,8 @@ class _CardsScreenState extends State<CardsScreen> {
           padding: const EdgeInsets.all(6),
           child: Column(children: [
             _Row(leading: _chip(icon: Icons.lock_outline_rounded), title: 'Freeze card', subtitle: _frozen ? 'Transactions blocked' : 'Transactions allowed', trailing: _Switch(on: _frozen, onChanged: (v) => setState(() => _frozen = v))),
-            const _Row(leading: _chip(icon: Icons.fingerprint_rounded), title: 'Contactless limit', subtitle: 'Set a ceiling for tap payments', trailing: Tnum('\$120', style: TextStyle(color: kMuted, fontSize: 13))),
-            const _Row(leading: _chip(icon: Icons.pin_rounded), title: 'Card PIN', subtitle: 'View or change your PIN', trailing: Tnum('••••', style: TextStyle(color: kMuted, fontSize: 13))),
+            _Row(leading: _chip(icon: Icons.fingerprint_rounded), title: 'Contactless limit', subtitle: 'Set a ceiling for tap payments', trailing: Tnum('\$120', style: TextStyle(color: kMuted, fontSize: 13))),
+            _Row(leading: _chip(icon: Icons.pin_rounded), title: 'Card PIN', subtitle: 'View or change your PIN', trailing: Tnum('••••', style: TextStyle(color: kMuted, fontSize: 13))),
           ]),
         ),
       ],
@@ -504,7 +505,7 @@ class InsightsScreen extends StatelessWidget {
         child: Row(children: [
           SizedBox(width: 88, child: Text(name, style: const TextStyle(color: kInk2, fontSize: 13))),
           Expanded(child: ClipRRect(borderRadius: BorderRadius.circular(999), child: LinearProgressIndicator(value: v / 100, minHeight: 8, color: kGold, backgroundColor: kDeep))),
-          SizedBox(width: 34, child: Tnum('${v.toStringAsFixed(0)}%', style: const TextStyle(color: kInk2, fontSize: 12, textAlign: TextAlign.right))),
+          SizedBox(width: 34, child: Tnum('${v.toStringAsFixed(0)}%', style: const TextStyle(color: kInk2, fontSize: 12), textAlign: TextAlign.right)),
         ]),
       );
 }
@@ -528,7 +529,7 @@ class _SettingsScreenState extends State<SettingsScreen> {
         _Card(
           padding: const EdgeInsets.all(6),
           child: Column(children: [
-            const _Row(leading: _chip(icon: Icons.person_outline_rounded), title: 'Nadia Zeitler', subtitle: 'nadia@trellis.bank', trailing: Tnum('›', style: TextStyle(color: kMuted))),
+            _Row(leading: _chip(icon: Icons.person_outline_rounded), title: 'Nadia Zeitler', subtitle: 'nadia@trellis.bank', trailing: Tnum('›', style: TextStyle(color: kMuted))),
             _Row(leading: _chip(icon: Icons.lock_outline_rounded), title: 'Biometric lock', subtitle: 'Face ID or fingerprint', trailing: _Switch(on: _lock, onChanged: (v) => setState(() => _lock = v))),
             _Row(leading: _chip(icon: Icons.fingerprint_rounded), title: 'Require on payment', subtitle: 'Confirm every spend', trailing: _Switch(on: _biometrics, onChanged: (v) => setState(() => _biometrics = v))),
             _Row(leading: _chip(icon: Icons.notifications_none_rounded), title: 'Smart notifications', subtitle: 'Only what matters', trailing: _Switch(on: _notify, onChanged: (v) => setState(() => _notify = v))),
