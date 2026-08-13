@@ -1,0 +1,27 @@
+name: android-apk-appetize
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [master]
+    paths: ['android/**', 'lib/**', 'pubspec.yaml']
+
+jobs:
+  apk:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: subosito/flutter-action@v2
+        with: { channel: stable }
+      - run: flutter pub get
+      - run: flutter build apk --release
+      - name: Upload APK to Appetize
+        env:
+          APPETIZE_TOKEN: ${{ secrets.APPETIZE_TOKEN }}
+        run: |
+          curl -s -X POST "https://api.appetize.io/v1/apps" \
+            -F "file=@build/app/outputs/flutter-apk/app-release.apk" \
+            -F "token=$APPETIZE_TOKEN" \
+            -F "platform=android" -o appetize.json
+          cat appetize.json
+          echo "APK_BUILD_OK"
