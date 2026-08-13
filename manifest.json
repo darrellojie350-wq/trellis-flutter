@@ -1,0 +1,12 @@
+{
+  "name": "TRELLIS",
+  "short_name": "TRELLIS",
+  "start_url": ".",
+  "display": "standalone",
+  "background_color": "#221d1a",
+  "theme_color": "#221d1a",
+  "description": "TRELLIS — the quiet vault for your money.",
+  "orientation": "portrait-primary",
+  "prefer_related_applications": false,
+  "icons": []
+}
